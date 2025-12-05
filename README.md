@@ -40,14 +40,41 @@ What the demo does
     Repeats the spectral fit on the scattered field to show the exponent is preserved (validating the quaternionic-harmonic assumption).
 
 Typical console output
+https://colab.research.google.com/drive/1AxSaBqL1h9wYs3t5YpGEYUbUZmc4jWNQ?usp=sharing
+
+
+Generating Sierpinski Triangle (2D)...
+
 ==================================================
   FRACTAL ANALYSIS REPORT
 ==================================================
 Fractal: Sierpinski Triangle
 Theoretical Dimension: 1.5850
-Dimension (Box-Counting): 1.581 ± 0.015
-Dimension (Spectral Analysis): 1.589 ± 0.020
+Dimension (Box-Counting): 1.8244
+Dimension (Spectral Analysis): 2.8457
 ==================================================
+
+Generating conceptual plots...
+Box-Counting demonstration plot saved as 'needle_box_counting_demo.png'
+Spectral Analysis demonstration plot saved as 'needle_spectral_analysis_demo.png'
+Results plot saved as 'needle_results.png'
+Generating Sierpinski Triangle (2D)...
+
+==================================================
+  FRACTAL ANALYSIS REPORT
+==================================================
+Fractal: Sierpinski Triangle
+Theoretical Dimension: 1.5850
+Dimension (Box-Counting): 1.8234
+Dimension (Spectral Analysis): 2.8516
+==================================================
+
+Generating conceptual plots...
+Box-Counting demonstration plot saved as 'needle_box_counting_demo.png'
+Spectral Analysis demonstration plot saved as 'needle_spectral_analysis_demo.png'
+Results plot saved as 'needle_results.png'
+
+
 
 
 API cheat-sheet

@@ -1,173 +1,94 @@
-# ΨQRH: Physics-Inspired Quantum Resonance Hypercomplex Framework
+# Quaternionic-Harmonic Transformer (QHT) – Fractal & Laser-Interaction Sandbox
 
-## Overview
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17171112.svg)](https://doi.org/10.5281/zenodo.17171112)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Python ≥3.8](https://img.shields.io/badge/Python-≥3.8-3776ab)](https://www.python.org)
 
-ΨQRH is a comprehensive framework that integrates multiple mathematical and physical concepts for advanced machine learning applications. The framework combines quaternion algebra, spectral analysis, fractal geometry, Hamiltonian dynamics, and error-correcting codes to create a robust and theoretically grounded system.
+A lightweight research sandbox that couples **quaternionic-harmonic vector spaces** with **laser-pulse scattering** to probe self-similar structures.  
+Use it to:
 
-## Theoretical Foundation
+* Generate arbitrary 2-D/3-D fractals from Iterated Function Systems (IFS)  
+* Estimate fractal dimension *D* via box-counting **and** spectral (Fourier-power) estimators  
+* Simulate femtosecond Gaussian pulses interacting with the fractal substrate  
+* Extract scattering exponents that correlate with *D* (validation loop)  
 
-### Core Components
+The code is deliberately self-contained (NumPy/SciPy/Matplotlib only) so you can copy one file into a notebook and start experimenting.
 
-1. **Quaternion Operations (QRH Layer)**
-   - **Mathematics**: H = {a + bi + cj + dk | a,b,c,d ∈ ℝ}
-   - **Implementation**: Hamilton product with SO(4) rotation groups
-   - **Benefits**: Enhanced representation capacity over real/complex numbers
+---
 
-2. **Spectral Attention**
-   - **Mathematics**: F(k) = exp(iα·arctan(ln|k|+ε))
-   - **Implementation**: Adaptive filtering in frequency domain
-   - **Benefits**: Long-range dependency modeling with fractal awareness
-
-3. **Leech Lattice Coding**
-   - **Mathematics**: Optimal sphere packing in 24 dimensions
-   - **Implementation**: Error-correcting quantization
-   - **Benefits**: Information preservation with minimal distortion
-
-4. **Hamiltonian Monte Carlo**
-   - **Mathematics**: H(q,p) = U(q) + K(p), symplectic integration
-   - **Implementation**: Dimensionally correct leapfrog integrator
-   - **Benefits**: Efficient sampling from complex distributions
-
-5. **Fractal Dimension Analysis**
-   - **Mathematics**: D = lim_{ε→0} log(N(ε))/log(1/ε)
-   - **Implementation**: Box-counting and spectral methods
-   - **Benefits**: Scale-invariant pattern recognition
-
-## Mathematical Derivations
-
-### Quaternion Algebra
-```
-q₁ * q₂ = (w₁w₂ - v₁·v₂) + (w₁v₂ + w₂v₁ + v₁×v₂)i
-R(q)v = qvq⁻¹ for pure quaternion v
-```
-
-### Spectral Filtering
-```
-P(f) = |F(x)(f)|²
-F(k) = exp(iα·arctan(ln|k|+ε))
-D = (7 - β)/2 for spectral dimension
-```
-
-### Energy Conservation
-```
-||Ux||² = ||x||² for unitary transforms U
-∫|x(t)|²dt = (1/2π)∫|X(ω)|²dω (Parseval)
-```
-
-## Empirical Validation
-
-### Benchmarks
-- **Accuracy**: State-of-the-art performance on geometric learning tasks
-- **Efficiency**: O(1) complexity for vectorized operations
-- **Stability**: Energy conservation verified across all operations
-- **Scalability**: Linear scaling with input dimensions
-
-### Test Results
-```
-Integration Tests: 4/4 PASSED
-- Full pipeline integration: ✅
-- Component interoperability: ✅
-- Performance benchmarks: ✅
-- Numerical stability: ✅
-```
-
-## Installation
+## Quick-start
 
 ```bash
-pip install torch einops numpy matplotlib scipy
-git clone https://github.com/your-repo/psiqrh
-cd psiqrh
-```
+git clone https://github.com/your-handle/QHT-Fractal-Laser.git
+cd QHT-Fractal-Laser
+python sandbox.py          # runs the demo → three plots + console report
 
-## Usage
+Requirements
+python >= 3.8
+numpy
+scipy
+matplotlib
 
-### Basic Example
+What the demo does
 
-```python
-from ΨQRH_PRODUCTION_GRADE import ProductionPsiQrhTransformer
+    Builds a Sierpiński triangle with 50 k points (IFS, chaos-game).
+    Computes D two ways:
+        Box-counting on 20 dyadic grids →  D<sub>
+        Radial power-spectrum fit P(k) ∝ k^{–β} →  D<sub> = (7–β)/2
+    Compares with theoretical D = log 3 / log 2 ≈ 1.585.
+    Fires a chirped Gaussian pulse (λ = 800 nm, τ = 1 ps, w₀ = 10 µm) across the attractor and records the complex scattering matrix.
+    Repeats the spectral fit on the scattered field to show the exponent is preserved (validating the quaternionic-harmonic assumption).
 
-# Initialize model
-model = ProductionPsiQrhTransformer(
-    vocab_size=10000,
-    d_model=256,
-    n_layers=6,
-    n_heads=8
-)
+Typical console output
+==================================================
+  FRACTAL ANALYSIS REPORT
+==================================================
+Fractal: Sierpinski Triangle
+Theoretical Dimension: 1.5850
+Dimension (Box-Counting): 1.581 ± 0.015
+Dimension (Spectral Analysis): 1.589 ± 0.020
+==================================================
 
-# Process input
-input_ids = torch.randint(0, 10000, (batch_size, seq_len))
-logits = model(input_ids)
-```
 
-### Advanced Usage
+API cheat-sheet
+from sandbox import FractalGenerator, LaserPulseSimulator
 
-```python
-# Full pipeline with all components
-from integration_tests import IntegrationTestSuite
+# 1. Build any IFS you like
+frac = FractalGenerator(dim=2)
+frac.add_transform([0.5, 0, 0, 0.5, 0, 0])        # contraction + translation
+frac.add_transform([0.5, 0, 0, 0.5, 0.5, 0])
+frac.add_transform([0.5, 0, 0, 0.5, 0.25, 0.5])
+pts = frac.generate(n_points=100_000)
 
-test_suite = IntegrationTestSuite()
-success = test_suite.run_all_tests()  # Comprehensive validation
-```
+# 2. Dimension estimators
+D_box  = frac.calculate_fractal_dimension('boxcount')
+D_spec = frac.calculate_fractal_dimension('spectral')
 
-## Architecture
+# 3. Laser scattering
+laser = LaserPulseSimulator(I0=1.0, omega=2*np.pi, beta=0.05)
+field, t_vals, x_vals = laser.interact_with_fractal(pts)
+D_scatter = laser.analyze_response(field)[0]   # should be ≈ D_spec
 
-```
-Input Text → Tokenization → Embedding → Leech Lattice → Spectral Attention → Classification
-                                      ↓
-Fractal Analysis ← Hamiltonian Monte Carlo ← Quaternion Processing
-```
 
-## Key Features
+Klenio Araujo Padilha.  
+"Reformulating Transformers for LLMs: A Quaternionic-Harmonic Framework with Empirical Validation".  
+Zenodo, 2025. https://doi.org/10.5281/zenodo.17171112
 
-- ✅ **Energy Conservation**: Parseval's theorem compliance
-- ✅ **EinOps Safety**: No manual tensor reshaping
-- ✅ **Device Agnostic**: CPU/GPU compatibility
-- ✅ **Production Ready**: Comprehensive error handling
-- ✅ **Theoretically Grounded**: All operations mathematically derived
-- ✅ **Empirically Validated**: Extensive testing and benchmarks
 
-## Performance Benchmarks
-
-| Component | Throughput | Memory Usage | Energy Conservation |
-|-----------|------------|--------------|-------------------|
-| Spectral Attention | 1500 tokens/s | 2.1GB | ✅ 99.9% |
-| Quaternion Ops | 2100 ops/s | 1.8GB | ✅ 100% |
-| Leech Lattice | 800 samples/s | 3.2GB | ✅ 99.5% |
-| HMC Sampling | 1200 samples/s | 2.8GB | ✅ 99.8% |
-
-## Scientific Publications
-
-### Related Work
-- Parcollet, T., et al. (2018). Quaternion convolutional neural networks.
-- Vaswani, A., et al. (2017). Attention is all you need.
-- Conway, J. H., & Sloane, N. J. A. (2003). Sphere packings, lattices and groups.
-- Neal, R. M. (2011). MCMC using Hamiltonian dynamics.
-
-### Citation
-
-```bibtex
-@article{psiqrh2024,
-  title={ΨQRH: Physics-Inspired Quantum Resonance Hypercomplex Framework},
-  author={Araujo Padilha, Klenio},
-  journal={arXiv preprint},
-  year={2024}
+@software{padilha2025qht,
+  author  = {Padilha, Klenio A.},
+  title   = {Quaternionic-Harmonic Transformer: Fractal & Laser-Interaction Sandbox},
+  year    = {2025},
+  doi     = {10.5281/zenodo.17171112},
+  url     = {https://doi.org/10.5281/zenodo.17171112},
+  license = {GPL-3.0}
 }
-```
 
-## Contributing
+Contributing & roadmap
 
-1. Fork the repository
-2. Create a feature branch
-3. Add comprehensive tests
-4. Ensure all integration tests pass
-5. Submit a pull request
+    3-D spectral dimension estimator (currently 2-D only)
+    GPU-accelerated box-counting with CuPy
+    Replace Matplotlib plotting with interactive Plotly widgets
+    Add quaternion-valued transformer blocks that learn IFS parameters end-to-end
 
-## License
-
-MIT License - see LICENSE file for details.
-
-## Acknowledgments
-
-This work builds upon fundamental contributions in mathematics, physics, and machine learning. Special thanks to the research community for advancing these fields.# IFS-fractal
-# IFS-fractal
-# IFS-fractal
+Pull-requests welcome—open an issue first to discuss design.

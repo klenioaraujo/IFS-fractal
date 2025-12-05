@@ -170,3 +170,4 @@ MIT License - see LICENSE file for details.
 
 This work builds upon fundamental contributions in mathematics, physics, and machine learning. Special thanks to the research community for advancing these fields.# IFS-fractal
 # IFS-fractal
+# IFS-fractal
